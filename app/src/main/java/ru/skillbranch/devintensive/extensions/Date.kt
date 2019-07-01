@@ -25,4 +25,8 @@ fun Date.add(value: Int, timeUnit: TimeUnits): Date {
 
 }
 
+fun Date.humanizeDiff(date: Date = Date()): String {
+    TODO()
+}
+
 enum class TimeUnits { SECOND, MINUTE, HOUR, DAY }
