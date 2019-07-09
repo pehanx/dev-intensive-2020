@@ -26,27 +26,30 @@ fun Date.add(value: Int, timeUnit: TimeUnits): Date {
 
 }
 
-fun Date.humanizeDiff(date: Date = Date()): String = when {
-    abs(this.time - date.time) <= SECOND && date > this -> "только что"
-    this.time < date.time - 360 * DAY -> "более года назад"
-    this.time > date.time + 360 * DAY -> "более чем через год"
-    else -> {
-        val seconds = (abs(this.time - date.time) / SECOND).toInt()
-        val template = if (this > date) "через %s" else "%s назад"
-        template.format(
-            when {
-                seconds in 1..45 -> "несколько секунд"
-                seconds in 45..75 -> "минуту"
-                seconds in 75..45 * 60 -> pluralForm(seconds / 60, TimeUnits.MINUTE)
-                seconds in 45 * 60..75 * 60 -> "час"
-                seconds in 75 * 60..22 * 3600 -> pluralForm(seconds / 3600, TimeUnits.HOUR)
-                seconds in 22 * 3600..26 * 3600 -> "день"
-                seconds in 26 * 3600..360 * 86400 -> pluralForm(seconds / 86400, TimeUnits.DAY)
-                else -> throw IllegalStateException()
-            }
-        )
+fun Date.humanizeDiff(date: Date = Date()): String {
+    
+    return when {
+        abs(this.time - date.time) <= SECOND && date > this -> "только что"
+        this.time < date.time - 360 * DAY -> "более года назад"
+        this.time > date.time + 360 * DAY -> "более чем через год"
+        else -> {
+            val seconds = (abs(this.time - date.time) / SECOND).toInt()
+            val template = if (this > date) "через %s" else "%s назад"
+            template.format(
+                    when {
+                        seconds in 1..45 -> "несколько секунд"
+                        seconds in 45..75 -> "минуту"
+                        seconds in 75..45 * 60 -> pluralForm(seconds / 60, TimeUnits.MINUTE)
+                        seconds in 45 * 60..75 * 60 -> "час"
+                        seconds in 75 * 60..22 * 3600 -> pluralForm(seconds / 3600, TimeUnits.HOUR)
+                        seconds in 22 * 3600..26 * 3600 -> "день"
+                        seconds in 26 * 3600..360 * 86400 -> pluralForm(seconds / 86400, TimeUnits.DAY)
+                        else -> throw IllegalStateException()
+                    }
+            )
+        }
+        
     }
-
 }
 
 
@@ -58,11 +61,11 @@ private fun pluralForm(value: Int, unit: TimeUnits): String {
         value % 10 in 2..4 -> 1
         else -> 2
     }
-    return arrayListOf(
-        "%s секунду",
+    val forms = listOf(
+            "%s секунду",
             "%s секунды",
             "%s секунд",
-        "%s минуту",
+            "%s минуту",
             "%s минуты",
             "%s минут",
             "%s час",
@@ -71,7 +74,8 @@ private fun pluralForm(value: Int, unit: TimeUnits): String {
             "%s день",
             "%s дня",
             "%s дней"
-    )[form + 3 * when (unit) {
+    )
+    return forms[form + 3 * when (unit) {
         TimeUnits.SECOND -> 0
         TimeUnits.MINUTE -> 1
         TimeUnits.HOUR -> 2
@@ -79,4 +83,7 @@ private fun pluralForm(value: Int, unit: TimeUnits): String {
     }].format(value)
 }
 
-enum class TimeUnits { SECOND, MINUTE, HOUR, DAY }
+enum class TimeUnits {
+    SECOND, MINUTE, HOUR, DAY;
+    fun plural(value: Int): String = pluralForm(value, this)
+}
