@@ -13,7 +13,7 @@ abstract class BaseMessage(
 
     companion object AbstractFactory { // По моему это все таки не абстрактная фабрика, а фабричный метод
         var lastId = -1
-        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), payload: Any?, type: String = "text", isIncoming: Boolean = false): BaseMessage {
+        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String = "text", payload: Any?, isIncoming: Boolean = false): BaseMessage {
             lastId++
             return when (type) {
                 "text" -> TextMessage(lastId.toString(), from, chat, date = date, text = payload as String, isIncoming = isIncoming)
