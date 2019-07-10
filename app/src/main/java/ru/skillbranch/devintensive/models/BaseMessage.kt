@@ -13,11 +13,11 @@ abstract class BaseMessage(
 
     companion object AbstractFactory { // По моему это все таки не абстрактная фабрика, а фабричный метод
         var lastId = -1
-        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), type: String = "text", payload: Any?): BaseMessage {
+        fun makeMessage(from: User?, chat: Chat, date: Date = Date(), payload: Any?, type: String = "text", isIncoming: Boolean = false): BaseMessage {
             lastId++
             return when (type) {
-                "text" -> TextMessage(lastId.toString(), from, chat, date = date, text = payload as String)
-                "image" -> ImageMessage(lastId.toString(), from, chat, date = date, image = payload as String)
+                "text" -> TextMessage(lastId.toString(), from, chat, date = date, text = payload as String, isIncoming = isIncoming)
+                "image" -> ImageMessage(lastId.toString(), from, chat, date = date, image = payload as String, isIncoming = isIncoming)
                 else -> throw IllegalStateException()
             }
         }
