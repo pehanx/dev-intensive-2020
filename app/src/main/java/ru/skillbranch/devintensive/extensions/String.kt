@@ -7,4 +7,4 @@ fun String.truncate(limit: Int = 16): String {
 	return "$substr..."
 }
 
-fun String.stripHtml(): String = this.replace(Regex("(<(.|\\n)+?>)|(\\s\\s)+"), "")
+fun String.stripHtml(): String = this.replace(Regex("(<(.|\\n)+?>)|(&quot;)|(&amp;)|(&gt;)|(&lt;)"), "").replace(Regex("\\s+"), " ")

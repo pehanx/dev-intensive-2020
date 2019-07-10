@@ -17,6 +17,6 @@ class StringTest {
 	@Test
 	fun `test stripHtml fun`(){
 		assertEquals("Образовательное IT-сообщество Skill Branch", "<p class=\"title\">Образовательное IT-сообщество Skill Branch</p>".stripHtml())
-		assertEquals("Образовательное IT-сообщество Skill Branch", "<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml())
+		assertEquals("Образовательное IT-сообщество Skill Branch", "<p>Образовательное &quot; &amp; &lt; &gt;      IT-сообщество Skill Branch</p>".stripHtml())
 	}
 }
