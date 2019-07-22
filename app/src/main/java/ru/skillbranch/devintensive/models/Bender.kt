@@ -23,7 +23,7 @@ class Bender(
 				question = Question.NAME
 				"Это неправильный ответ. Давай все по новой\n${question.question}"
 			} else {
-				"Это неправильный ответ!\n${question.question}"
+				"Это неправильный ответ\n${question.question}"
 			} to status.color
 		}
 	}
