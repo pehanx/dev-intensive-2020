@@ -8,9 +8,16 @@ class Bender(
 	
 	fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
 		return if (question.answers.contains(answer.toLowerCase())) {
-			"Отлично - это правильный ответ!" to status.color
+			question = question.nextQuestion()
+			"Отлично - ты справился!\n${question.question}" to status.color
 		} else {
-			"Это не правильный ответ!" to status.color
+			status = status.nextStatus()
+			if (status == Status.NORMAL) {
+				question = Question.NAME
+				"Это неправильный ответ. Давай все по новой\n${question.question}"
+			} else {
+				"Это неправильный ответ!\n${question.question}"
+			} to status.color
 		}
 	}
 	
@@ -18,15 +25,49 @@ class Bender(
 		NORMAL(Triple(255,255,255)),
 		WARNING(Triple(255,120,0)),
 		DANGER(Triple(255,60,60)),
-		CRITICAL(Triple(255,255,0))
+		CRITICAL(Triple(255,255,0));
+		
+		fun nextStatus(): Status {
+			return if (ordinal < values().lastIndex) {
+				values()[ordinal + 1]
+			} else {
+				values()[0]
+			}
+		}
 	}
 	
 	enum class Question(val question: String, val answers: List<String>){
-		NAME("Как меня зовут?", listOf("bender", "бендер")),
-		PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")),
-		MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")),
-		BDAY("Когда меня создали?", listOf("2993")),
-		SERIAL("Мой серийный номер?", listOf("2716057")),
-		IDLE("На этом все, вопросов больше нет", listOf())
+		NAME("Как меня зовут?", listOf("bender", "бендер")) {
+			override fun nextQuestion(): Question {
+				return PROFESSION
+			}
+		},
+		PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
+			override fun nextQuestion(): Question {
+				return MATERIAL
+			}
+		},
+		MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
+			override fun nextQuestion(): Question {
+				return BDAY
+			}
+		},
+		BDAY("Когда меня создали?", listOf("2993")) {
+			override fun nextQuestion(): Question {
+				return SERIAL
+			}
+		},
+		SERIAL("Мой серийный номер?", listOf("2716057")) {
+			override fun nextQuestion(): Question {
+				return IDLE
+			}
+		},
+		IDLE("На этом все, вопросов больше нет", listOf()) {
+			override fun nextQuestion(): Question {
+				return IDLE
+			}
+		};
+		
+		abstract fun nextQuestion(): Question
 	}
 }
