@@ -41,7 +41,8 @@
             android:paddingTop="@dimen/spacing_normal"
             android:paddingBottom="@dimen/spacing_normal"
             android:layout_marginLeft="@dimen/spacing_normal"
-            android:layout_marginRight="@dimen/spacing_normal"/>
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:imeOptions="actionDone"/>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/iv_send"

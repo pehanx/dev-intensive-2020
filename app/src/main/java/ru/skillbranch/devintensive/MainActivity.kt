@@ -4,7 +4,10 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,13 +18,12 @@ import ru.skillbranch.devintensive.models.Bender
 private const val STATUS = "STATUS"
 private const val QUESTION = "QUESTION"
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
-    
+class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
     val benderImage: ImageView by lazy { iv_bender }
+    
     val textTxt: TextView by lazy { tv_text }
     val messageEt: EditText by lazy { et_message }
     val sendBtn: ImageView by lazy { iv_send }
-    
     val benderObj = Bender()
     
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         
         textTxt.text = benderObj.askQuestion()
         sendBtn.setOnClickListener(this)
+        messageEt.setOnEditorActionListener(this)
     }
     
     override fun onSaveInstanceState(outState: Bundle?) {
@@ -60,5 +63,25 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     
+    }
+    
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+        return when (v?.id) {
+            R.id.et_message -> {
+                Log.d("MainActivity", "action = $actionId")
+                if (EditorInfo.IME_ACTION_DONE == actionId || EditorInfo.IME_NULL == actionId) {
+                    val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+                    messageEt.setText("")
+                    val (r, g, b) = color
+                    benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)
+                    textTxt.text = phrase
+                    hideKeyboard()
+                    true
+                } else {
+                    false
+                }
+            }
+            else -> true
+        }
     }
 }
