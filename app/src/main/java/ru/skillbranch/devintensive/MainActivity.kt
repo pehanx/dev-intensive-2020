@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         return when (v?.id) {
             R.id.et_message -> {
                 Log.d("MainActivity", "action = $actionId")
-                if (EditorInfo.IME_ACTION_DONE == actionId || EditorInfo.IME_NULL == actionId) {
+                if (EditorInfo.IME_ACTION_DONE == actionId) {
                     val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
                     messageEt.setText("")
                     val (r, g, b) = color
