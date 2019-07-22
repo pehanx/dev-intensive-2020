@@ -18,7 +18,7 @@ class Bender(
 			val prevQuestion = question
 			question = question.nextQuestion()
 			if (question == Question.IDLE) {
-				if (question == prevQuestion) {
+				if (question != prevQuestion) {
 					"Отлично - ты справился\nНа этом все, вопросов больше нет"
 				} else {
 					"На этом все, вопросов больше нет"
