@@ -12,10 +12,15 @@ class Bender(
 		Log.d("Bender", "Answer: $answer")
 		return if (question.answers.contains(answer.trim().toLowerCase())) {
 			question = question.nextQuestion()
-			"Отлично - ты справился!\n${question.question}" to status.color
+			if (question == Question.IDLE) {
+				"Отлично - ты справился\nНа этом все, вопросов больше нет"
+			} else {
+				"Отлично - ты справился\n${question.question}"
+			} to status.color
 		} else {
 			status = status.nextStatus()
 			if (status == Status.NORMAL) {
+				question = Question.NAME
 				"Это неправильный ответ. Давай все по новой\n${question.question}"
 			} else {
 				"Это неправильный ответ!\n${question.question}"
