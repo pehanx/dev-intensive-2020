@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.models
 
+import android.util.Log
+
 class Bender(
 		var status: Status = Status.NORMAL,
 		var question: Question = Question.NAME) {
@@ -7,11 +9,11 @@ class Bender(
 	fun askQuestion(): String = question.question
 	
 	fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
-		return if (question.answers.contains(answer.toLowerCase())) {
+		Log.d("Bender", "Answer: $answer")
+		return if (question.answers.contains(answer.trim().toLowerCase())) {
 			question = question.nextQuestion()
 			"Отлично - ты справился!\n${question.question}" to status.color
 		} else {
-			status = status.nextStatus()
 			if (status == Status.NORMAL) {
 				question = Question.NAME
 				"Это неправильный ответ. Давай все по новой\n${question.question}"
