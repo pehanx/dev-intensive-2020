@@ -14,15 +14,11 @@ class Bender(
 		
 		validationError = question.validate(answer)
 		
-		return if (validationError == null && question.answers.contains(answer.trim().toLowerCase())) {
+		return if (validationError == null && (question == Question.IDLE || question.answers.contains(answer.trim().toLowerCase()))) {
 			val prevQuestion = question
 			question = question.nextQuestion()
-			if (question == Question.IDLE) {
-				if (question != prevQuestion) {
-					"Отлично - ты справился\nНа этом все, вопросов больше нет"
-				} else {
-					"На этом все, вопросов больше нет"
-				}
+			if (question == Question.IDLE && question == prevQuestion) {
+				question.question
 			} else {
 				"Отлично - ты справился\n${question.question}"
 			} to status.color
