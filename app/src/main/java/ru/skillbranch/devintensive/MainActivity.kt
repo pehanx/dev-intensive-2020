@@ -11,8 +11,10 @@ import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 private const val STATUS = "STATUS"
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     
         when (v?.id) {
             R.id.iv_send -> {
-                val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
+	            val (phrase, color) = benderObj.listenAnswer(messageEt.text.toString())
                 messageEt.setText("")
                 val (r, g, b) = color
                 benderImage.setColorFilter(Color.rgb(r, g, b), PorterDuff.Mode.MULTIPLY)

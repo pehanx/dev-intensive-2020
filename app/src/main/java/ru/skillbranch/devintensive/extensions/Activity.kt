@@ -2,6 +2,8 @@ package ru.skillbranch.devintensive.extensions
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Point
+import android.graphics.Rect
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
@@ -11,3 +13,20 @@ fun Activity.hideKeyboard(){
 	imm.hideSoftInputFromWindow(view.windowToken, 0)
 	imm.showSoftInput(view, 0)
 }
+
+fun Activity.isKeyboardOpen(): Boolean {
+	
+	val rect = Rect()
+	
+	windowManager.defaultDisplay.getRectSize(rect)
+	val foolHeight = rect.height()
+	
+	window.decorView.getWindowVisibleDisplayFrame(rect)
+	val statusBarHeight = rect.top
+	val difference = foolHeight -  statusBarHeight - rect.height()
+	val minKeyboardSize = 128
+	return difference > minKeyboardSize
+	
+}
+
+fun Activity.isKeyboardClosed(): Boolean = !isKeyboardOpen()
