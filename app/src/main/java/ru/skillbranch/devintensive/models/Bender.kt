@@ -23,17 +23,17 @@ class Bender(
 				"Отлично - ты справился\n${question.question}"
 			} to status.color
 		} else {
-			status = status.nextStatus()
 			
-			if (status == Status.NORMAL) {
-				question = Question.NAME
-				"Это неправильный ответ. Давай все по новой\n${question.question}"
-			} else {
-				if (validationError == null) {
-					"Это неправильный ответ\n${question.question}"
+			if (validationError == null) {
+				status = status.nextStatus()
+				if (status == Status.NORMAL) {
+					question = Question.NAME
+					"Это неправильный ответ. Давай все по новой\n${question.question}"
 				} else {
-					"$validationError\n${question.question}"
+					"Это неправильный ответ\n${question.question}"
 				}
+			} else {
+				"$validationError\n${question.question}"
 			} to status.color
 		}
 	}
