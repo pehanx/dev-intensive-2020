@@ -32,7 +32,7 @@ class Bender(
 				if (validationError == null) {
 					"Это неправильный ответ\n${question.question}"
 				} else {
-					"$validationError\nЭто неправильный ответ\n${question.question}"
+					"$validationError\n${question.question}"
 				}
 			} to status.color
 		}
