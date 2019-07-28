@@ -29,12 +29,12 @@
 
     <style name="Profile.Header.Nickname" parent="Profile.Header">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">@dimen/font_large_20</item>
-        <item name="android:layout_marginTop">@dimen/spacing_normal_16</item>
+        <item name="android:textSize">@dimen/font_large</item>
+        <item name="android:layout_marginTop">@dimen/spacing_normal</item>
     </style>
 
     <style name="Profile.Header.Rank" parent="Profile.Header">
-        <item name="android:textSize">@dimen/font_normal_16</item>
+        <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
     <style name="Profile.Metrics" parent="Profile">
@@ -42,19 +42,19 @@
     </style>
 
     <style name="Profile.Metrics.Label" parent="Profile.Metrics">
-        <item name="android:textSize">@dimen/font_normal_16</item>
+        <item name="android:textSize">@dimen/font_normal</item>
     </style>
 
     <style name="Profile.Metrics.Value" parent="Profile.Metrics">
         <item name="android:drawablePadding">4dp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textSize">@dimen/font_large_20</item>
+        <item name="android:textSize">@dimen/font_large</item>
     </style>
     <style name="Profile.InfoItem">
-        <item name="android:paddingTop">@dimen/spacing_normal_16</item>
+        <item name="android:paddingTop">@dimen/spacing_normal</item>
         <item name="android:paddingBottom">5dp</item>
-        <item name="android:paddingLeft">@dimen/spacing_normal_16</item>
-        <item name="android:paddingRight">@dimen/spacing_normal_16</item>
+        <item name="android:paddingLeft">@dimen/spacing_normal</item>
+        <item name="android:paddingRight">@dimen/spacing_normal</item>
         <item name="android:minHeight">72dp</item>
     </style>
 
