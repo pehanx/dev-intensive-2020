@@ -6,6 +6,8 @@ import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -72,6 +74,7 @@ class ProfileActivity : AppCompatActivity() {
 	}
 	
 	private fun saveProfileInfo(){
+		if (!Profile.validateRepository(et_repository.text.toString())) et_repository.setText("")
 		Profile(
 				firstName = et_first_name.text.toString(),
 				lastName = et_last_name.text.toString(),
@@ -95,6 +98,24 @@ class ProfileActivity : AppCompatActivity() {
 		btn_switch_theme.setOnClickListener {
 			viewModel.switchTheme()
 		}
+		val repoWatcher = object : TextWatcher {
+			override fun afterTextChanged(s: Editable?) {}
+			
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+				s?.let {
+					if (Profile.validateRepository(it.toString())) {
+						wr_repository.error = ""
+					} else {
+						wr_repository.error = getString(R.string.invalid_repo_address_message)
+					}
+				}
+			}
+			
+		}
+		et_repository.addTextChangedListener(repoWatcher)
+		
 	}
 	
 	private fun showCurrentMode(isEditMode: Boolean) {
