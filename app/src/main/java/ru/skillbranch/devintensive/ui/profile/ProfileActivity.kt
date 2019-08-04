@@ -40,11 +40,11 @@ class ProfileActivity : AppCompatActivity() {
 	val viewModel by lazy { ViewModelProviders.of(this).get(ProfileViewModel::class.java) }
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
+		setTheme(R.style.AppTheme)
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_profile)
 		initViews(savedInstanceState)
 		initViewModel()
-		
 	}
 	
 	override fun onSaveInstanceState(outState: Bundle?) {
