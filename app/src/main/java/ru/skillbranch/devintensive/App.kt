@@ -10,7 +10,7 @@ class App: Application() {
 	companion object {
 		private var instance: App? = null
 		
-		fun applicationContext(): Context? = instance!!.applicationContext
+		fun applicationContext(): Context = instance!!.applicationContext
 	}
 	
 	init {
