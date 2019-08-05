@@ -106,7 +106,8 @@ class ProfileActivity : AppCompatActivity() {
 			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 				s?.let {
 					if (Profile.validateRepository(it.toString())) {
-						wr_repository.error = ""
+						wr_repository.error = null
+						wr_repository.isErrorEnabled = false
 					} else {
 						wr_repository.error = getString(R.string.invalid_repo_address_message)
 					}
