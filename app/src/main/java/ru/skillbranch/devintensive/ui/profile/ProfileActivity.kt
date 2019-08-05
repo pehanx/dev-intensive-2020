@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.textBitmap
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -68,6 +70,20 @@ class ProfileActivity : AppCompatActivity() {
 	}
 	
 	private fun updateUI(profile: Profile) {
+		if (profile.firstName.isNotBlank() || profile.lastName.isNotBlank()) {
+			val initials = "${profile.firstName.firstOrNull() ?: ""}${profile.lastName.firstOrNull() ?: ""}"
+			val tv = TypedValue()
+			theme.resolveAttribute(R.attr.colorAccent, tv, true)
+			val backgroundColor = tv.data
+			iv_avatar.setImageBitmap(textBitmap(
+					iv_avatar.layoutParams.width,
+					iv_avatar.layoutParams.height,
+					initials,
+					backgroundColor)
+			)
+		} else {
+			iv_avatar.setImageDrawable(getDrawable(R.drawable.avatar_default))
+		}
 		profile.toMap().forEach{(key, value) ->
 			viewFields[key]?.text = value.toString()
 		}
