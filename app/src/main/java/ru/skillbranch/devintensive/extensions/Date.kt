@@ -26,6 +26,14 @@ fun Date.add(value: Int, timeUnit: TimeUnits): Date {
 
 }
 
+fun Date.shortFormat(): String {
+    return this.format(if (isSameDay(Date())) "HH:mm" else "dd.MM.yy")
+}
+
+fun Date.isSameDay(date: Date): Boolean {
+    return this.time / DAY == date.time / DAY
+}
+
 fun Date.humanizeDiff(date: Date = Date()): String {
     
     return when {

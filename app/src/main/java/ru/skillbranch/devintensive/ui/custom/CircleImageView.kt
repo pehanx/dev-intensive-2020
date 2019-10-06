@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.widget.ImageView
 import androidx.annotation.ColorInt
@@ -18,14 +19,15 @@ import kotlin.math.roundToInt
 
 private const val TAG = "CircleImageView"
 
-class CircleImageView @JvmOverloads constructor(ctx: Context,
+open class CircleImageView @JvmOverloads constructor(ctx: Context,
             attrs: AttributeSet? = null,
             defStyleAttr: Int = 0,
             defStyleRes: Int = 0
 ) : ImageView(ctx, attrs, defStyleAttr, defStyleRes) {
 	
 	private var borderWidth = 2.px
-	
+	private lateinit var bitmapForDraw: Bitmap
+
 	@ColorInt
 	var color = Color.WHITE
 	
@@ -37,27 +39,27 @@ class CircleImageView @JvmOverloads constructor(ctx: Context,
 		} finally {
 			ta.recycle()
 		}
+		createBitmap()?.let {
+			bitmapForDraw = it
+		}
 	}
-	
+
+	override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+		super.onSizeChanged(w, h, oldw, oldh)
+		bitmapForDraw = createBitmap() ?: return
+	}
+
+
+
 	override fun onDraw(canvas: Canvas?) {
 		
 		canvas?.let { canvas ->
 			if (width == 0 || height == 0) return
-			var bitmap = getBitmapFromDrawable() ?: return
-			
-			val smallestSide = min(width, height)
-			
-			bitmap = getScaledBitmap(bitmap, smallestSide)
-			bitmap = getCenterCroppedBitmap(bitmap, smallestSide)
-			bitmap = getCircleBitmap(bitmap)
-			
-			if (borderWidth > 0)
-				bitmap = getStrokedBitmap(bitmap, borderWidth, color)
-			
-			canvas.drawBitmap(bitmap, 0F, 0F, null)
+
+			canvas.drawBitmap(bitmapForDraw, 0F, 0F, null)
 		}
 	}
-	
+
 	@Dimension
 	fun getBorderWidth(): Int = borderWidth.dp
 	
@@ -65,7 +67,14 @@ class CircleImageView @JvmOverloads constructor(ctx: Context,
 		borderWidth = dp.px
 		invalidate()
 	}
-	
+
+	override fun invalidate() {
+		super.invalidate()
+		bitmapForDraw = createBitmap() ?: return
+	}
+
+
+
 	fun getBorderColor(): Int {
 		return color
 	}
@@ -79,7 +88,22 @@ class CircleImageView @JvmOverloads constructor(ctx: Context,
 		color = ContextCompat.getColor(App.applicationContext(), colorId)
 		invalidate()
 	}
-	
+
+	protected open fun createBitmap(): Bitmap? {
+		if (width == 0 || height == 0) return null
+		var bitmap = getBitmapFromDrawable() ?: return null
+
+		val smallestSide = min(width, height)
+
+		bitmap = getScaledBitmap(bitmap, smallestSide)
+		bitmap = getCenterCroppedBitmap(bitmap, smallestSide)
+		bitmap = getCircleBitmap(bitmap)
+
+		if (borderWidth > 0)
+			bitmap = getStrokedBitmap(bitmap, borderWidth, color)
+		return  bitmap
+	}
+
 	private fun getStrokedBitmap(bitmap: Bitmap, strokeWidth: Int, color: Int): Bitmap {
 		val inCircle = RectF()
 		val strokeStart = strokeWidth / 2F
@@ -113,7 +137,7 @@ class CircleImageView @JvmOverloads constructor(ctx: Context,
 		} else bitmap
 	}
 	
-	private fun getBitmapFromDrawable(): Bitmap? {
+	protected open fun getBitmapFromDrawable(): Bitmap? {
 		if (drawable == null)
 			return null
 		
