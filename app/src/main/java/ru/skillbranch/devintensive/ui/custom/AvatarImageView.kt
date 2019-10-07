@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.AttributeSet
-import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.utils.textBitmap
 
 class AvatarImageView @JvmOverloads constructor(ctx: Context,
@@ -15,7 +14,8 @@ class AvatarImageView @JvmOverloads constructor(ctx: Context,
 
     private var initials: String = "??"
     override fun getBitmapFromDrawable(): Bitmap? {
-        return textBitmap(width, height, initials, Color.GREEN)
+        return super.getBitmapFromDrawable() ?: textBitmap(width, height, initials, Color.GREEN)
+
     }
 
     fun setInitials(newInitials: String) {

@@ -179,7 +179,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?attr/colorDivider"
-        android:layout_marginEnd="@dimen/space_maximum"
+        android:layout_marginEnd="@dimen/spacing_maximum"
         />
 
     <LinearLayout
