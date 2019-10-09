@@ -31,7 +31,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
             override fun getNewListSize(): Int = newItems.size
 
             override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-                return _items[oldItemPosition] == _items[newItemPosition]
+                return _items[oldItemPosition] == newItems[newItemPosition]
             }
 
         }
