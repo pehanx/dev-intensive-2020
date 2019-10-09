@@ -23,12 +23,16 @@ class AvatarImageView @JvmOverloads constructor(ctx: Context,
 
     fun setInitials(newInitials: String) {
         initials = newInitials
-        if (width > 0 && height > 0) setImageBitmap(textBitmap(width, height, initials, backgroundRandomColor, (min(width, height) * 0.4f).toInt()))
+        setInitialsBitmap(width, height)
         invalidate()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-        if (w > 0 && h > 0) setImageBitmap(textBitmap(w, h, initials, backgroundRandomColor, (min(w, h) * 0.4f).toInt()))
+        setInitialsBitmap(w, h)
         super.onSizeChanged(w, h, oldw, oldh)
+    }
+
+    private fun setInitialsBitmap(w: Int, h: Int) {
+        if (w > 0 && h > 0) setImageBitmap(textBitmap(w, h, initials, backgroundRandomColor, (min(w, h) * 0.4f).toInt()))
     }
 }
