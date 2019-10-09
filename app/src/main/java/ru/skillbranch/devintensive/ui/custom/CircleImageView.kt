@@ -26,7 +26,10 @@ open class CircleImageView @JvmOverloads constructor(ctx: Context,
 ) : ImageView(ctx, attrs, defStyleAttr, defStyleRes) {
 	
 	private var borderWidth = 2.px
-	private lateinit var bitmapForDraw: Bitmap
+	private val clipPath = Path()
+	private val clipOval = RectF()
+	private val inCircle = RectF()
+	private val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
 	@ColorInt
 	var color = Color.WHITE
@@ -39,24 +42,38 @@ open class CircleImageView @JvmOverloads constructor(ctx: Context,
 		} finally {
 			ta.recycle()
 		}
-		createBitmap()?.let {
-			bitmapForDraw = it
-		}
+
 	}
-
-	override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
-		super.onSizeChanged(w, h, oldw, oldh)
-		bitmapForDraw = createBitmap() ?: return
-	}
-
-
 
 	override fun onDraw(canvas: Canvas?) {
-		
-		canvas?.let { canvas ->
+
+		canvas?.let { _ ->
+
 			if (width == 0 || height == 0) return
 
-			canvas.drawBitmap(bitmapForDraw, 0F, 0F, null)
+			canvas.clipPath(clipPath.apply {
+				addOval(clipOval.apply {
+					left = 0f
+					top = 0f
+					right = width.toFloat()
+					bottom = height.toFloat()
+				},Path.Direction.CCW)
+			})
+
+			super.onDraw(canvas)
+
+			val strokeStart = borderWidth / 2F
+			val strokeEndRight = width - borderWidth / 2F
+			val strokeEndBottom = height - borderWidth / 2F
+
+			inCircle.set(strokeStart, strokeStart, strokeEndRight, strokeEndBottom)
+
+
+			strokePaint.color = color
+			strokePaint.style = Paint.Style.STROKE
+			strokePaint.strokeWidth = borderWidth.toFloat()
+
+			canvas.drawOval(inCircle, strokePaint)
 		}
 	}
 
@@ -67,13 +84,6 @@ open class CircleImageView @JvmOverloads constructor(ctx: Context,
 		borderWidth = dp.px
 		invalidate()
 	}
-
-	override fun invalidate() {
-		super.invalidate()
-		bitmapForDraw = createBitmap() ?: return
-	}
-
-
 
 	fun getBorderColor(): Int {
 		return color
@@ -87,81 +97,6 @@ open class CircleImageView @JvmOverloads constructor(ctx: Context,
 	fun setBorderColor(@ColorRes colorId: Int) {
 		color = ContextCompat.getColor(App.applicationContext(), colorId)
 		invalidate()
-	}
-
-	protected open fun createBitmap(): Bitmap? {
-		if (width == 0 || height == 0) return null
-		var bitmap = getBitmapFromDrawable() ?: return null
-
-		val smallestSide = min(width, height)
-
-		bitmap = getScaledBitmap(bitmap, smallestSide)
-		bitmap = getCenterCroppedBitmap(bitmap, smallestSide)
-		bitmap = getCircleBitmap(bitmap)
-
-		if (borderWidth > 0)
-			bitmap = getStrokedBitmap(bitmap, borderWidth, color)
-		return  bitmap
-	}
-
-	private fun getStrokedBitmap(bitmap: Bitmap, strokeWidth: Int, color: Int): Bitmap {
-		val inCircle = RectF()
-		val strokeStart = strokeWidth / 2F
-		val strokeEnd = bitmap.width - strokeWidth / 2F
-		
-		inCircle.set(strokeStart, strokeStart, strokeEnd, strokeEnd)
-		
-		val strokePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-		strokePaint.color = color
-		strokePaint.style = Paint.Style.STROKE
-		strokePaint.strokeWidth = strokeWidth.toFloat()
-		
-		val canvas = Canvas(bitmap)
-		canvas.drawOval(inCircle, strokePaint)
-		
-		return bitmap
-	}
-	
-	private fun getCenterCroppedBitmap(bitmap: Bitmap, size: Int): Bitmap {
-		val cropStartX = (bitmap.width - size) / 2
-		val cropStartY = (bitmap.height - size) / 2
-		
-		return Bitmap.createBitmap(bitmap, cropStartX, cropStartY, size, size)
-	}
-	
-	private fun getScaledBitmap(bitmap: Bitmap, minSide: Int): Bitmap {
-		return if (bitmap.width != minSide || bitmap.height != minSide) {
-			val smallest = min(bitmap.width, bitmap.height).toFloat()
-			val factor = smallest / minSide
-			Bitmap.createScaledBitmap(bitmap, (bitmap.width / factor).toInt(), (bitmap.height / factor).toInt(), false)
-		} else bitmap
-	}
-	
-	protected open fun getBitmapFromDrawable(): Bitmap? {
-		if (drawable == null)
-			return null
-		
-		if (drawable is BitmapDrawable)
-			return (drawable as BitmapDrawable).bitmap
-		
-		return drawable.toBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-	}
-	
-	private fun getCircleBitmap(bitmap: Bitmap): Bitmap {
-		val smallest = min(bitmap.width, bitmap.height)
-		val outputBmp = Bitmap.createBitmap(smallest, smallest, Bitmap.Config.ARGB_8888)
-		val canvas = Canvas(outputBmp)
-		
-		val paint = Paint()
-		
-		paint.isAntiAlias = true
-		paint.isFilterBitmap = true
-		paint.isDither = true
-		canvas.drawCircle(smallest / 2F, smallest / 2F, smallest / 2F, paint)
-		paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-		canvas.drawBitmap(bitmap, 0F, 0F, paint)
-		
-		return outputBmp
 	}
 	
 	val Int.dp: Int
