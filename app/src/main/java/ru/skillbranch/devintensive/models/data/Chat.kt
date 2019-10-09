@@ -12,6 +12,7 @@ data class Chat(
     val id: String,
     val title: String,
     val members: List<User> = listOf(),
+        // поскольку messages mutable list - кэшировать возможности нет
     var messages: MutableList<BaseMessage> = mutableListOf(),
     var isArchived: Boolean = false
 ) {
@@ -22,14 +23,15 @@ data class Chat(
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageDate(): Date? {
-        return Date()
-        //TODO implement me
+        return messages.lastOrNull()?.date
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun lastMessageShort(): Pair<String, String?> = when(val lastMessage = messages.lastOrNull()){
-        else -> "" to ""
-       //TODO implement me
+        null -> "" to null
+        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to null
+        is TextMessage -> lastMessage.text.orEmpty() to lastMessage.from.firstName
+        else -> error("not expected message type")
     }
 
     private fun isSingle(): Boolean = members.size == 1
