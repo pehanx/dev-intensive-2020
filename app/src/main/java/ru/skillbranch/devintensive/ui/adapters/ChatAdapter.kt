@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.item_chat_archive.*
 import kotlinx.android.synthetic.main.item_chat_group.*
 import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
@@ -47,6 +48,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         return when (viewType) {
             R.layout.item_chat_single -> SingleViewHolder(inflater.inflate(viewType, parent, false))
             R.layout.item_chat_group -> GroupViewHolder(inflater.inflate(viewType, parent, false))
+            R.layout.item_chat_archive -> ArchiveViewHolder(inflater.inflate(viewType, parent, false))
             else -> SingleViewHolder(inflater.inflate(R.layout.item_chat_single, parent, false))
         }
     }
@@ -61,7 +63,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         return when (items[position].chatType) {
             ChatType.SINGLE -> R.layout.item_chat_single
             ChatType.GROUP -> R.layout.item_chat_group
-            ChatType.ARCHIVE -> 0
+            ChatType.ARCHIVE -> R.layout.item_chat_archive
         }
     }
 
@@ -80,7 +82,6 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
                 iv_avatar_single.setInitials(item.initials)
             } else {
 
-                // TODO
                 Glide.with(itemView)
                         .load(item.avatar)
                         .into(iv_avatar_single)
@@ -133,6 +134,38 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
             }
             tv_title_group.text = item.title
             tv_message_group.text = item.shortDescription
+
+            itemView.setOnClickListener { listener(item) }
+        }
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(Color.LTGRAY)
+        }
+
+        override fun onItemCleared() {
+            itemView.setBackgroundColor(Color.WHITE)
+        }
+
+    }
+
+    class ArchiveViewHolder(containerView: View) : ChatItemViewHolder(containerView),
+            ItemTouchViewHolder {
+
+        override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
+
+            with(tv_date_archive) {
+                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
+                text = item.lastMessageDate
+            }
+            with(tv_counter_archive) {
+                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
+                text = item.messageCount.toString()
+            }
+            with(tv_message_author_archive) {
+                visibility = if (item.author != null) View.VISIBLE else View.GONE
+                text = item.author
+            }
+            tv_message_archive.text = item.shortDescription
 
             itemView.setOnClickListener { listener(item) }
         }

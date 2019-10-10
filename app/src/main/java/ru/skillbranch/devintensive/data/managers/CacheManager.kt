@@ -1,4 +1,4 @@
-package ru.skillbranch.devintensive.data
+package ru.skillbranch.devintensive.data.managers
 
 import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.models.data.Chat

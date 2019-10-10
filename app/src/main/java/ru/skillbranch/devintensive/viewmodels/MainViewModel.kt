@@ -4,17 +4,35 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import ru.skillbranch.devintensive.extensions.mutableLiveData
+import ru.skillbranch.devintensive.extensions.*
+import ru.skillbranch.devintensive.models.BaseMessage
+import ru.skillbranch.devintensive.models.data.Chat
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.repositories.ChatRepository
+import java.util.*
 
 class MainViewModel : ViewModel() {
 
     private val chatRepository = ChatRepository
     private val chats = Transformations.map(chatRepository.loadChats()) {chats ->
-        chats.filter { !it.isArchived }
+        val allArchivedMessages = chats.filter { it.isArchived }
+                .flatMap { it.messages }
+                .sortedBy { it.date.time }
+        val lastMessage = allArchivedMessages.lastOrNull()
+        val (lastMessageShort, lastMessageAuthor)= shortMessage(lastMessage)
+        chats.orEmpty()
+                .filter { !it.isArchived }
                 .map { it.toChatItem() }
                 .sortedBy { it.id }
+                .toMutableList()
+                .insertIf(
+                        ChatItem.archiveItem(
+                                lastMessageShort,
+                                allArchivedMessages.size,
+                                lastMessage?.date?.shortFormat() ?: "Никогда",
+                                lastMessageAuthor
+                        ),
+                        0) { chats.any { it.isArchived }}
     }
     private val query = mutableLiveData("")
 

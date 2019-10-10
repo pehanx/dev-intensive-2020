@@ -2,6 +2,7 @@ package ru.skillbranch.devintensive.models.data
 
 import androidx.annotation.VisibleForTesting
 import ru.skillbranch.devintensive.extensions.shortFormat
+import ru.skillbranch.devintensive.extensions.shortMessage
 import ru.skillbranch.devintensive.models.BaseMessage
 import ru.skillbranch.devintensive.models.ImageMessage
 import ru.skillbranch.devintensive.models.TextMessage
@@ -27,12 +28,7 @@ data class Chat(
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun lastMessageShort(): Pair<String, String?> = when(val lastMessage = messages.lastOrNull()){
-        null -> "" to null
-        is ImageMessage -> "${lastMessage.from.firstName} - отправил фото" to null
-        is TextMessage -> lastMessage.text.orEmpty() to lastMessage.from.firstName
-        else -> error("not expected message type")
-    }
+    fun lastMessageShort(): Pair<String, String?> = shortMessage(messages.lastOrNull())
 
     private fun isSingle(): Boolean = members.size == 1
 
