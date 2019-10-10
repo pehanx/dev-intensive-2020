@@ -1,6 +1,7 @@
 package ru.skillbranch.devintensive.ui.adapters
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,8 @@ import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
+
+private const val TAG = "ChatAdapter"
 
 class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
 
@@ -60,6 +63,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
     }
 
     override fun getItemViewType(position: Int): Int {
+        Log.d(TAG, "$position ${items[position].chatType}")
         return when (items[position].chatType) {
             ChatType.SINGLE -> R.layout.item_chat_single
             ChatType.GROUP -> R.layout.item_chat_group
@@ -148,8 +152,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
 
     }
 
-    class ArchiveViewHolder(containerView: View) : ChatItemViewHolder(containerView),
-            ItemTouchViewHolder {
+    class ArchiveViewHolder(containerView: View) : ChatItemViewHolder(containerView) {
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
 
@@ -168,14 +171,6 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
             tv_message_archive.text = item.shortDescription
 
             itemView.setOnClickListener { listener(item) }
-        }
-
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
         }
 
     }

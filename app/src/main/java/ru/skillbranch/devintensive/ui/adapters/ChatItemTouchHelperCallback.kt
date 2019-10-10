@@ -4,11 +4,14 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
+
+private const val TAG = "ChatItemTouchHelper"
 
 class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (ChatItem)->Unit) : ItemTouchHelper.Callback() {
 
@@ -18,6 +21,7 @@ class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (
     private val iconBounds = Rect()
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+        Log.d(TAG, "${viewHolder.adapterPosition} ${viewHolder is ItemTouchHelper}")
         return if (viewHolder is ItemTouchHelper) {
             makeMovementFlags(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.START)
         } else {
