@@ -4,6 +4,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -13,7 +14,7 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 
 private const val TAG = "ChatItemTouchHelper"
 
-class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (ChatItem)->Unit) : ItemTouchHelper.Callback() {
+open class ChatItemTouchHelperCallback(val adapter: AdapterWithChatItems, val swipeListener: (ChatItem)->Unit) : ItemTouchHelper.Callback() {
 
     private val bgRect = RectF()
     private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -60,9 +61,13 @@ class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (
         super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
     }
 
+    open fun getIcon(itemView: View): Drawable {
+        return itemView.resources.getDrawable(R.drawable.ic_archive_black_24dp, itemView.context.theme)
+    }
+
     private fun drawIcon(canvas: Canvas, itemView: View, dX: Float) {
         // Названия иконок сохраняю на всякий случай, вдруг тесты на них завязаны
-        val icon = itemView.resources.getDrawable(R.drawable.ic_archive_black_24dp, itemView.context.theme)
+        val icon = getIcon(itemView)
         val iconSize = itemView.resources.getDimensionPixelSize(R.dimen.icon_size)
         val space = itemView.resources.getDimensionPixelSize(R.dimen.spacing_normal)
 
@@ -94,9 +99,4 @@ class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (
 
         canvas.drawRect(bgRect, bgPaint)
     }
-}
-
-interface ItemTouchViewHolder {
-    fun onItemSelected()
-    fun onItemCleared()
 }

@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_archive.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.ui.adapters.ArchiveAdapter
+import ru.skillbranch.devintensive.ui.adapters.ArchiveChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.viewmodels.ArchiveViewModel
 
 class ArchiveActivity : AppCompatActivity() {
@@ -50,8 +52,16 @@ class ArchiveActivity : AppCompatActivity() {
         with(rv_archive_list) {
             layoutManager = LinearLayoutManager(this@ArchiveActivity)
             adapter = archiveAdapter
-            addItemDecoration(DividerItemDecoration(this@ArchiveActivity, DividerItemDecoration.VERTICAL)
-            )
+            addItemDecoration(DividerItemDecoration(this@ArchiveActivity, DividerItemDecoration.VERTICAL))
+
+            ItemTouchHelper(ArchiveChatItemTouchHelperCallback(archiveAdapter) {
+                viewModel.restoreFromArchive(it.id)
+                Snackbar.make(this, "Вы точно хотите удалить ${it.title} из архива?", Snackbar.LENGTH_LONG)
+                        .setAction(android.R.string.cancel) { _ ->
+                            viewModel.addToArchive(it.id)
+                        }
+                        .show()
+            }).attachToRecyclerView(this)
         }
     }
 

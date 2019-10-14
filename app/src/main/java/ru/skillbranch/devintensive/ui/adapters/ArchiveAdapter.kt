@@ -10,10 +10,11 @@ import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.viewholders.ChatItemViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.SingleViewHolder
 
-class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatItemViewHolder>() {
+class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatItemViewHolder>(), AdapterWithChatItems {
 
     private var _items: List<ChatItem> = emptyList()
-    var items: List<ChatItem>
+
+    override var items: List<ChatItem>
         get() = _items
         set(value) {
 

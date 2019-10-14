@@ -11,15 +11,15 @@ import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.viewholders.ChatItemViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.GroupViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.SingleViewHolder
-import ru.skillbranch.devintensive.viewmodels.ArchiveViewHolder
+import ru.skillbranch.devintensive.ui.viewholders.ArchiveViewHolder
 
 private const val TAG = "ChatAdapter"
 
-class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatItemViewHolder>() {
+class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatItemViewHolder>(), AdapterWithChatItems {
 
 
     private var _items: List<ChatItem> = listOf()
-    val items get() = _items
+    override val items get() = _items
 
     fun updateData(newItems: List<ChatItem>) {
 
