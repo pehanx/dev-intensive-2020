@@ -22,10 +22,10 @@ class ChatItemTouchHelperCallback(val adapter: ChatAdapter, val swipeListener: (
 
     override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
         Log.d(TAG, "${viewHolder.adapterPosition} ${viewHolder is ItemTouchHelper}")
-        return if (viewHolder is ItemTouchHelper) {
-            makeMovementFlags(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.START)
-        } else {
+        return if (viewHolder is ItemTouchViewHolder) {
             makeMovementFlags(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.START)
+        } else {
+            makeMovementFlags(ItemTouchHelper.ACTION_STATE_IDLE, ItemTouchHelper.ACTION_STATE_IDLE)
         }
     }
 

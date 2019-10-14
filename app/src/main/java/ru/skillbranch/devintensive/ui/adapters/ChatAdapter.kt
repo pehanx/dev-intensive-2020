@@ -1,24 +1,21 @@
 package ru.skillbranch.devintensive.ui.adapters
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_chat_archive.*
-import kotlinx.android.synthetic.main.item_chat_group.*
-import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
+import ru.skillbranch.devintensive.ui.viewholders.ChatItemViewHolder
+import ru.skillbranch.devintensive.ui.viewholders.GroupViewHolder
+import ru.skillbranch.devintensive.ui.viewholders.SingleViewHolder
+import ru.skillbranch.devintensive.viewmodels.ArchiveViewHolder
 
 private const val TAG = "ChatAdapter"
 
-class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
+class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatItemViewHolder>() {
 
 
     private var _items: List<ChatItem> = listOf()
@@ -69,109 +66,5 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
             ChatType.GROUP -> R.layout.item_chat_group
             ChatType.ARCHIVE -> R.layout.item_chat_archive
         }
-    }
-
-
-    abstract class ChatItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
-        abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
-    }
-
-    class SingleViewHolder(containerView: View) : ChatItemViewHolder(containerView),
-            ItemTouchViewHolder {
-
-        override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            if (item.avatar == null) {
-                Glide.with(itemView)
-                        .clear(iv_avatar_single)
-                iv_avatar_single.setInitials(item.initials)
-            } else {
-
-                Glide.with(itemView)
-                        .load(item.avatar)
-                        .into(iv_avatar_single)
-            }
-
-
-            sv_indicator.visibility = if (item.isOnline) View.VISIBLE else View.GONE
-            with(tv_date_single) {
-                visibility = if (item.lastMessageDate == null) View.GONE else View.VISIBLE
-                text = item.lastMessageDate
-            }
-            with(tv_counter_single) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-            tv_title_single.text = item.title
-            tv_message_single.text = item.shortDescription
-
-            itemView.setOnClickListener { listener(item) }
-        }
-
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
-
-    }
-
-    class GroupViewHolder(containerView: View) : ChatItemViewHolder(containerView),
-            ItemTouchViewHolder {
-
-        override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-            iv_avatar_group.setInitials(item.initials)
-
-
-            with(tv_date_group) {
-                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = item.lastMessageDate
-            }
-            with(tv_counter_group) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-            with(tv_message_author) {
-                visibility = if (item.author != null) View.VISIBLE else View.GONE
-                text = item.author
-            }
-            tv_title_group.text = item.title
-            tv_message_group.text = item.shortDescription
-
-            itemView.setOnClickListener { listener(item) }
-        }
-
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
-
-    }
-
-    class ArchiveViewHolder(containerView: View) : ChatItemViewHolder(containerView) {
-
-        override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-
-            with(tv_date_archive) {
-                visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
-                text = item.lastMessageDate
-            }
-            with(tv_counter_archive) {
-                visibility = if (item.messageCount > 0) View.VISIBLE else View.GONE
-                text = item.messageCount.toString()
-            }
-            with(tv_message_author_archive) {
-                visibility = if (item.author != null) View.VISIBLE else View.GONE
-                text = item.author
-            }
-            tv_message_archive.text = item.shortDescription
-
-            itemView.setOnClickListener { listener(item) }
-        }
-
     }
 }
