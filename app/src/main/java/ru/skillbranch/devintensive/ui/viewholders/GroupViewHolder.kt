@@ -24,7 +24,7 @@ class GroupViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(cont
         }
         with(tv_message_author) {
             visibility = if (item.author != null) View.VISIBLE else View.GONE
-            text = item.author
+            text = "@${item.author}"
         }
         tv_title_group.text = item.title
         tv_message_group.text = item.shortDescription
