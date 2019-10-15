@@ -44,7 +44,6 @@ class MainViewModel : ViewModel() {
             } else {
                 items.value = chats?.value.orEmpty().filter {
                     it.title.contains(query.value?.trim() ?: "", true)
-                            || it.author?.contains(query.value?.trim() ?: "", true) ?: false
                 }
             }
         }
