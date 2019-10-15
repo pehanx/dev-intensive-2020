@@ -19,7 +19,7 @@ class ArchiveViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(co
         }
         with(tv_message_author_archive) {
             visibility = if (item.author != null) View.VISIBLE else View.GONE
-            text = item.author
+            text = "@${item.author}"
         }
         tv_message_archive.text = item.shortDescription
 
