@@ -3,8 +3,9 @@ package ru.skillbranch.devintensive.ui.viewholders
 import android.view.View
 import kotlinx.android.synthetic.main.item_chat_archive.*
 import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 
-class ArchiveViewHolder(containerView: View) : ChatItemViewHolder(containerView) {
+class ArchiveViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(containerView) {
 
     override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
 

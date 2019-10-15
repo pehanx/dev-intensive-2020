@@ -5,9 +5,10 @@ import android.view.View
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ItemTouchViewHolder
 
-class SingleViewHolder(containerView: View) : ChatItemViewHolder(containerView),
+class SingleViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(containerView),
         ItemTouchViewHolder {
 
     override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {

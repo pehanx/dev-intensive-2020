@@ -2,20 +2,21 @@ package ru.skillbranch.devintensive.ui.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
-import ru.skillbranch.devintensive.ui.viewholders.ChatItemViewHolder
+import ru.skillbranch.devintensive.ui.viewholders.ArchiveViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.GroupViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.SingleViewHolder
-import ru.skillbranch.devintensive.ui.viewholders.ArchiveViewHolder
 
 private const val TAG = "ChatAdapter"
 
-class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatItemViewHolder>(), AdapterWithChatItems {
+class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>(), AdapterWithChatItems {
 
 
     private var _items: List<ChatItem> = listOf()
@@ -66,5 +67,9 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatI
             ChatType.GROUP -> R.layout.item_chat_group
             ChatType.ARCHIVE -> R.layout.item_chat_archive
         }
+    }
+
+    abstract class ChatItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+        abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
     }
 }

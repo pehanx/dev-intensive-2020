@@ -4,9 +4,10 @@ import android.graphics.Color
 import android.view.View
 import kotlinx.android.synthetic.main.item_chat_group.*
 import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ItemTouchViewHolder
 
-class GroupViewHolder(containerView: View) : ChatItemViewHolder(containerView),
+class GroupViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(containerView),
         ItemTouchViewHolder {
 
     override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {

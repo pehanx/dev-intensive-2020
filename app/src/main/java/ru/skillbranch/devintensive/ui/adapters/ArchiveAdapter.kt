@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
-import ru.skillbranch.devintensive.ui.viewholders.ChatItemViewHolder
 import ru.skillbranch.devintensive.ui.viewholders.SingleViewHolder
 
-class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatItemViewHolder>(), AdapterWithChatItems {
+class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>(), AdapterWithChatItems {
 
     private var _items: List<ChatItem> = emptyList()
 
@@ -37,7 +36,7 @@ class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adap
         }
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatAdapter.ChatItemViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             R.layout.item_chat_single -> SingleViewHolder(inflater.inflate(viewType, parent, false))
@@ -48,7 +47,7 @@ class ArchiveAdapter(private val listener: (ChatItem)->Unit) : RecyclerView.Adap
 
     override fun getItemCount(): Int = _items.size
 
-    override fun onBindViewHolder(holder: ChatItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChatAdapter.ChatItemViewHolder, position: Int) {
         holder.bind(_items[position], listener)
     }
 
