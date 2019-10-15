@@ -4,12 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import ru.skillbranch.devintensive.extensions.*
-import ru.skillbranch.devintensive.models.BaseMessage
-import ru.skillbranch.devintensive.models.data.Chat
+import ru.skillbranch.devintensive.extensions.insertIf
+import ru.skillbranch.devintensive.extensions.mutableLiveData
+import ru.skillbranch.devintensive.extensions.shortFormat
+import ru.skillbranch.devintensive.extensions.shortMessage
 import ru.skillbranch.devintensive.models.data.ChatItem
+import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.repositories.ChatRepository
-import java.util.*
 
 class MainViewModel : ViewModel() {
 
@@ -43,7 +44,7 @@ class MainViewModel : ViewModel() {
                 items.value = chats.value
             } else {
                 items.value = chats?.value.orEmpty().filter {
-                    it.title.contains(query.value?.trim() ?: "", true)
+                    it.chatType != ChatType.ARCHIVE && it.title.contains(query.value?.trim() ?: "", true)
                 }
             }
         }
