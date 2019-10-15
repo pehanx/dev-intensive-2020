@@ -9,7 +9,6 @@ import ru.skillbranch.devintensive.extensions.mutableLiveData
 import ru.skillbranch.devintensive.extensions.shortFormat
 import ru.skillbranch.devintensive.extensions.shortMessage
 import ru.skillbranch.devintensive.models.data.ChatItem
-import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.repositories.ChatRepository
 
 class MainViewModel : ViewModel() {
@@ -44,7 +43,8 @@ class MainViewModel : ViewModel() {
                 items.value = chats.value
             } else {
                 items.value = chats?.value.orEmpty().filter {
-                    it.chatType != ChatType.ARCHIVE && it.title.contains(query.value?.trim() ?: "", true)
+                    it.title.contains(query.value?.trim() ?: "", true)
+                            || it.author?.contains(query.value?.trim() ?: "", true) ?: false
                 }
             }
         }
