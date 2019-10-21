@@ -65,15 +65,16 @@ open class CircleImageView @JvmOverloads constructor(ctx: Context,
 			val strokeStart = borderWidth / 2F
 			val strokeEndRight = width - borderWidth / 2F
 			val strokeEndBottom = height - borderWidth / 2F
+			if (borderWidth > 0) {
+				inCircle.set(strokeStart, strokeStart, strokeEndRight, strokeEndBottom)
 
-			inCircle.set(strokeStart, strokeStart, strokeEndRight, strokeEndBottom)
 
+				strokePaint.color = color
+				strokePaint.style = Paint.Style.STROKE
+				strokePaint.strokeWidth = borderWidth.toFloat()
 
-			strokePaint.color = color
-			strokePaint.style = Paint.Style.STROKE
-			strokePaint.strokeWidth = borderWidth.toFloat()
-
-			canvas.drawOval(inCircle, strokePaint)
+				canvas.drawOval(inCircle, strokePaint)
+			}
 		}
 	}
 
