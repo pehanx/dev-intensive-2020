@@ -22,6 +22,7 @@
         <item name="chatItemTitleStyle">@style/ChatItem.Title.Light</item>
         <item name="chatItemSubtitleStyle">@style/ChatItem.Subtitle.Light</item>
         <item name="chatItemUsernameStyle">@style/ChatItem.Username.Light</item>
+        <item name="chatItemDateStyle">@style/ChatItem.Date.Light</item>
 
         <item name="snackbarBackgroundColor">@color/color_primary</item>
         <item name="snackbarTextColor">@android:color/white</item>

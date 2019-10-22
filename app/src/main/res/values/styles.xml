@@ -55,6 +55,19 @@
         <item name="android:textColor">@color/color_subtitle_night</item>
     </style>
 
+    <style name="ChatItem.Date">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">10sp</item>
+    </style>
+
+    <style name="ChatItem.Date.Light">
+        <item name="android:textColor">@color/color_subtitle</item>
+    </style>
+
+    <style name="ChatItem.Date.Dark">
+        <item name="android:textColor">@color/color_subtitle_night</item>
+    </style>
+
     <style name="Profile">
 
     </style>
