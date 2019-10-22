@@ -13,4 +13,10 @@
     <attr name="colorDivider" format="reference"/>
     <attr name="colorIcon" format="reference"/>
 
+    <attr name="chatItemSubtitleStyle" format="reference"/>
+    <attr name="chatItemTitleStyle" format="reference"/>
+    <attr name="chatItemUsernameStyle" format="reference"/>
+
+    <attr name="chatItemSwipeBackgroundColor" format="reference|color"/>
+
 </resources>

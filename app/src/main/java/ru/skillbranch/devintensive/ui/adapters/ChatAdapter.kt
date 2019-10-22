@@ -1,9 +1,12 @@
 package ru.skillbranch.devintensive.ui.adapters
 
+import android.content.Context
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
@@ -69,7 +72,18 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         }
     }
 
-    abstract class ChatItemViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+    abstract class ChatItemViewHolder(final override val containerView: View) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+        protected @ColorInt
+        var defaultBackgroundColor: Int = getBackgroundColor(containerView.context)
+
+        @ColorInt
+        private fun getBackgroundColor(context: Context): Int {
+            val tv = TypedValue()
+            context.theme.resolveAttribute(android.R.attr.colorBackground, tv, true)
+            return tv.data
+        }
+
         abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
     }
 }

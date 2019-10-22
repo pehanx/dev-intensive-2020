@@ -3,9 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimary">@color/color_primary_night</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent_night</item>
+
+        <item name="android:colorBackground">@color/color_background_night</item>
+
+        <item name="chatItemSwipeBackgroundColor">@color/color_accent_night</item>
 
         <item name="colorAccentedSurface">@color/color_divider_light</item>
         <item name="colorIcon">@android:color/white</item>
@@ -15,5 +19,8 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
 
+        <item name="chatItemTitleStyle">@style/ChatItem.Title.Dark</item>
+        <item name="chatItemSubtitleStyle">@style/ChatItem.Subtitle.Dark</item>
+        <item name="chatItemUsernameStyle">@style/ChatItem.Username.Dark</item>
     </style>
 </resources>

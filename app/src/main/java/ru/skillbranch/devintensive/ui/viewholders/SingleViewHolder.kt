@@ -44,7 +44,7 @@ class SingleViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(con
     }
 
     override fun onItemCleared() {
-        itemView.setBackgroundColor(Color.WHITE)
+        itemView.setBackgroundColor(defaultBackgroundColor)
     }
 
 }

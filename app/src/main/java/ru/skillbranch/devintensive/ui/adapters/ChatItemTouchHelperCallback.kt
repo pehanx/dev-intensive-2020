@@ -1,12 +1,15 @@
 package ru.skillbranch.devintensive.ui.adapters
 
+import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import ru.skillbranch.devintensive.R
@@ -14,10 +17,14 @@ import ru.skillbranch.devintensive.models.data.ChatItem
 
 private const val TAG = "ChatItemTouchHelper"
 
-open class ChatItemTouchHelperCallback(val adapter: AdapterWithChatItems, val swipeListener: (ChatItem)->Unit) : ItemTouchHelper.Callback() {
+open class ChatItemTouchHelperCallback(val adapter: AdapterWithChatItems, context: Context, val swipeListener: (ChatItem)->Unit) : ItemTouchHelper.Callback() {
 
     private val bgRect = RectF()
-    private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    private val bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        val tv = TypedValue()
+        context.theme.resolveAttribute(R.attr.chatItemSwipeBackgroundColor, tv, true)
+        color = tv.data
+    }
 
     private val iconBounds = Rect()
 
@@ -90,11 +97,6 @@ open class ChatItemTouchHelperCallback(val adapter: AdapterWithChatItems, val sw
             right = itemView.right.toFloat()
             top = itemView.top.toFloat()
             bottom = itemView.bottom.toFloat()
-        }
-
-        with(bgPaint) {
-            // Не тяжеловата ли операция?
-            color = itemView.resources.getColor(R.color.color_primary_dark, itemView.context.theme)
         }
 
         canvas.drawRect(bgRect, bgPaint)

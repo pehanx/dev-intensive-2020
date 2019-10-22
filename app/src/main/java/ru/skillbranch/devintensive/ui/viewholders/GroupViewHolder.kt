@@ -11,8 +11,8 @@ class GroupViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(cont
         ItemTouchViewHolder {
 
     override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
-        iv_avatar_group.setInitials(item.initials)
 
+        iv_avatar_group.setInitials(item.initials)
 
         with(tv_date_group) {
             visibility = if (item.lastMessageDate != null) View.VISIBLE else View.GONE
@@ -37,7 +37,7 @@ class GroupViewHolder(containerView: View) : ChatAdapter.ChatItemViewHolder(cont
     }
 
     override fun onItemCleared() {
-        itemView.setBackgroundColor(Color.WHITE)
+        itemView.setBackgroundColor(defaultBackgroundColor)
     }
 
 }

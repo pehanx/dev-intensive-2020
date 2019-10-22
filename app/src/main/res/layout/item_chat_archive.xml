@@ -5,8 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="@dimen/spacing_maximum"
-    android:padding="@dimen/spacing_normal"
-    android:background="@android:color/white">
+    android:padding="@dimen/spacing_normal">
 
     <ru.skillbranch.devintensive.ui.custom.CircleImageView
         android:id="@+id/iv_avatar_archive"
@@ -16,15 +15,14 @@
         android:layout_alignParentLeft="true"
         android:background="@drawable/bg_ic_avatar"
         android:padding="@dimen/spacing_small"
-        android:src="@drawable/ic_archive_black_24dp"/>
+        android:src="@drawable/ic_archive_black_24dp"
+        app:cv_borderWidth="0dp"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        style="?attr/chatItemTitleStyle"
         android:id="@+id/tv_title_archive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_archive"
         android:layout_toLeftOf="@id/tv_date_archive"
         android:layout_marginRight="@dimen/spacing_normal"
@@ -32,24 +30,20 @@
         android:text="@string/archive_of_chats"/>
 
     <androidx.appcompat.widget.AppCompatTextView
+        style="?attr/chatItemUsernameStyle"
         android:id="@+id/tv_message_author_archive"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="14sp"
         android:layout_toRightOf="@id/iv_avatar_archive"
         android:layout_below="@id/tv_title_archive"
         android:layout_marginRight="@dimen/spacing_tiny"
         tools:text="John_Doe" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        style="?attr/chatItemSubtitleStyle"
         android:id="@+id/tv_message_archive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/color_primary"
-        android:fontFamily="sans-serif-medium"
-        android:textSize="14sp"
         android:layout_toRightOf="@id/tv_message_author_archive"
         android:layout_toLeftOf="@id/tv_counter_archive"
         android:layout_below="@id/tv_title_archive"

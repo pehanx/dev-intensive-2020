@@ -54,7 +54,7 @@ class ArchiveActivity : AppCompatActivity() {
             adapter = archiveAdapter
             addItemDecoration(DividerItemDecoration(this@ArchiveActivity, DividerItemDecoration.VERTICAL))
 
-            ItemTouchHelper(ArchiveChatItemTouchHelperCallback(archiveAdapter) {
+            ItemTouchHelper(ArchiveChatItemTouchHelperCallback(archiveAdapter, this@ArchiveActivity) {
                 viewModel.restoreFromArchive(it.id)
                 Snackbar.make(this, "Вы точно хотите удалить ${it.title} из архива?", Snackbar.LENGTH_LONG)
                         .setAction(android.R.string.cancel) { _ ->

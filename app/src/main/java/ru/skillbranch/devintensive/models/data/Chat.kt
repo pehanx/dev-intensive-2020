@@ -40,7 +40,7 @@ data class Chat(
                 user.avatar,
                 Utils.toInitials(user.firstName, user.lastName) ?: "??",
                 "${user.firstName ?: ""} ${user.lastName ?: ""}",
-                lastMessageShort().first,
+                lastMessageShort().first.trim(),
                 unreadableMessageCount(),
                 lastMessageDate()?.shortFormat(),
                 user.isOnline
@@ -51,7 +51,7 @@ data class Chat(
                 null,
                 "",
                 title,
-                lastMessageShort().first,
+                lastMessageShort().first.trim(),
                 unreadableMessageCount(),
                 lastMessageDate()?.shortFormat(),
                 false,

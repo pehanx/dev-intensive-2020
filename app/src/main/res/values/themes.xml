@@ -8,12 +8,20 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
 
+        <item name="android:colorBackground">@android:color/white</item>
+
+        <item name="chatItemSwipeBackgroundColor">@color/color_primary_dark</item>
+
         <item name="colorAccentedSurface">@color/color_primary_light</item>
         <item name="colorIcon">@color/color_gray</item>
         <item name="colorDivider">@color/color_divider_dark</item>
 
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
+
+        <item name="chatItemTitleStyle">@style/ChatItem.Title.Light</item>
+        <item name="chatItemSubtitleStyle">@style/ChatItem.Subtitle.Light</item>
+        <item name="chatItemUsernameStyle">@style/ChatItem.Username.Light</item>
     </style>
 
 </resources>

@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val touchCallback = ChatItemTouchHelperCallback(chatAdapter){
+        val touchCallback = ChatItemTouchHelperCallback(chatAdapter, this){
             viewModel.addToArchive(it.id)
             Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
                     .setAction(android.R.string.cancel) { _ ->
