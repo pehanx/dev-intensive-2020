@@ -3,13 +3,13 @@ package ru.skillbranch.devintensive.ui.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.VisibleForTesting
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_user_list.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.show
 import ru.skillbranch.devintensive.models.data.UserItem
 
 class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
@@ -61,7 +61,7 @@ class UserAdapter(val listener: (UserItem)->Unit) : RecyclerView.Adapter<UserAda
                 iv_avatar_user.setInitials(item.initials ?: "??")
             }
 
-            sv_indicator.visibility = if (item.isOnline) View.VISIBLE else View.GONE
+            sv_indicator.show { item.isOnline }
             tv_user_name.text = item.fullName
             tv_last_activity.text = item.lastActivity
             iv_selected.visibility = if (item.isSelected) View.VISIBLE else View.GONE
