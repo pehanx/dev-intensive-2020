@@ -9,8 +9,6 @@
 
         <item name="android:colorBackground">@color/color_background_night</item>
 
-        <item name="chatItemSwipeBackgroundColor">@color/color_accent_night</item>
-
         <item name="colorAccentedSurface">@color/color_divider_light</item>
         <item name="colorIcon">@android:color/white</item>
         <item name="colorDivider">@color/color_divider_dark</item>
@@ -19,8 +17,13 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
 
+        <item name="chatItemSwipeBackgroundColor">@color/color_accent_night</item>
+
         <item name="chatItemTitleStyle">@style/ChatItem.Title.Dark</item>
         <item name="chatItemSubtitleStyle">@style/ChatItem.Subtitle.Dark</item>
         <item name="chatItemUsernameStyle">@style/ChatItem.Username.Dark</item>
+
+        <item name="snackbarBackgroundColor">@android:color/white</item>
+        <item name="snackbarTextColor">@android:color/black</item>
     </style>
 </resources>

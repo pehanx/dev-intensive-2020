@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.applyThemeColors
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
 import ru.skillbranch.devintensive.ui.adapters.ChatItemTouchHelperCallback
@@ -62,17 +63,19 @@ class MainActivity : AppCompatActivity() {
         chatAdapter = ChatAdapter {
             when (it.chatType) {
                 ChatType.ARCHIVE -> startActivity(Intent(this, ArchiveActivity::class.java))
-                else -> Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+                else -> Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).applyThemeColors().show()
             }
         }
 
 
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter, this){
             viewModel.addToArchive(it.id)
+
             Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${it.title} в архив?", Snackbar.LENGTH_LONG)
                     .setAction(android.R.string.cancel) { _ ->
                         viewModel.restoreFromArchive(it.id)
                     }
+                    .applyThemeColors()
                     .show()
         }
 

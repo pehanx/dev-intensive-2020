@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_archive.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.applyThemeColors
 import ru.skillbranch.devintensive.ui.adapters.ArchiveAdapter
 import ru.skillbranch.devintensive.ui.adapters.ArchiveChatItemTouchHelperCallback
 import ru.skillbranch.devintensive.viewmodels.ArchiveViewModel
@@ -20,7 +21,9 @@ class ArchiveActivity : AppCompatActivity() {
     private lateinit var viewModel: ArchiveViewModel
     private val archiveAdapter: ArchiveAdapter by lazy {
         ArchiveAdapter {
-            Snackbar.make(rv_archive_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(rv_archive_list, "Click on ${it.title}", Snackbar.LENGTH_LONG)
+                    .applyThemeColors()
+                    .show()
         }
     }
 
@@ -60,6 +63,7 @@ class ArchiveActivity : AppCompatActivity() {
                         .setAction(android.R.string.cancel) { _ ->
                             viewModel.addToArchive(it.id)
                         }
+                        .applyThemeColors()
                         .show()
             }).attachToRecyclerView(this)
         }

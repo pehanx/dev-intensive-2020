@@ -5,9 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.children
@@ -23,6 +23,7 @@ import com.bumptech.glide.request.target.Target
 import com.google.android.material.chip.Chip
 import kotlinx.android.synthetic.main.activity_group.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.show
 import ru.skillbranch.devintensive.models.data.UserItem
 import ru.skillbranch.devintensive.ui.adapters.UserAdapter
 import ru.skillbranch.devintensive.viewmodels.GroupViewModel
@@ -112,7 +113,9 @@ class GroupActivity : AppCompatActivity() {
             tag = user.id
             isClickable = true
             closeIconTint = ColorStateList.valueOf(Color.WHITE)
-            chipBackgroundColor = ColorStateList.valueOf(getColor(R.color.color_primary))
+            val tv = TypedValue()
+            theme.resolveAttribute(R.attr.colorPrimary, tv, true)
+            chipBackgroundColor = ColorStateList.valueOf(tv.data)
             setTextColor(Color.WHITE)
             setOnCloseIconClickListener {
                 viewModel.handleRemoveChip(it.tag.toString())
@@ -144,7 +147,7 @@ class GroupActivity : AppCompatActivity() {
     }
 
     private fun updateChips(listUsers: List<UserItem>) {
-        chip_group.visibility = if (listUsers.size > 0) View.VISIBLE else View.GONE
+        chip_group.show { listUsers.isNotEmpty() }
 
         val users = listUsers.associate { userItem -> userItem.id to userItem }.toMutableMap()
         val views = chip_group.children.associate { view -> view.tag to view }
